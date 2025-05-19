@@ -2,11 +2,12 @@ import streamlit as st
 from PIL import Image
 from collections import deque
 import tempfile
-from ultralytics import YOLO
 import cv2
+from ultralytics import YOLO
 from gtts import gTTS
-import playsound
+from playsound import playsound
 import os
+
 
 # Load model only once
 @st.cache_resource
@@ -14,14 +15,6 @@ def load_model(model_path):
     return YOLO(model_path)
 
 # Speak text using gTTS
-from gtts import gTTS
-import os
-import time
-import pygame
-
-from gtts import gTTS
-import os
-from playsound import playsound
 
 def speak_once(text):
     tts = gTTS(text=text, lang='en')
