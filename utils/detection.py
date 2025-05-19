@@ -10,6 +10,7 @@ import pyttsx3
 import os
 import time
 import pygame
+import cv2
 from playsound import playsound
 # Load model only once
 @st.cache_resource
