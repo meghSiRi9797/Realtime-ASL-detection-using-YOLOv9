@@ -1,3 +1,5 @@
+# detection.py
+
 import streamlit as st
 from PIL import Image
 from collections import deque
@@ -7,32 +9,33 @@ from ultralytics import YOLO
 import pyttsx3
 import os
 
-# Load model only once
 @st.cache_resource
 def load_model(model_path):
+    # You can add a print statement for debug, but remove after confirmed working:
+    print(f"Loading model from {model_path}...")
     return YOLO(model_path)
 
-# Speak text using gTTS
 def speak_once(text):
     if not text:
         return
     try:
-        engine = pyttsx3.init()  # Initialize each time
-        engine.setProperty('rate', 100)     # 🔁 Speak slower (default ~200)
-        engine.setProperty('volume', 1.0)   # 🔊 Max volume
-
-        # Optional: Set to a clearer voice (e.g., female voice)
+        engine = pyttsx3.init()
+        engine.setProperty('rate', 100)
+        engine.setProperty('volume', 1.0)
         voices = engine.getProperty('voices')
         for voice in voices:
             if "female" in voice.name.lower():
                 engine.setProperty('voice', voice.id)
-                break  # Use first female voice found
-
+                break
         engine.say(text)
         engine.runAndWait()
         engine.stop()
     except Exception as e:
         print(f"Voice error: {e}")
+
+# The rest of your functions stay the same...
+
+
 
 # Stable prediction logic
 def get_stable_prediction(predictions, threshold=3):
