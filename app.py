@@ -21,12 +21,10 @@ selected = option_menu(
 
 # Page Routing
 if selected == "Home":
-    from screens import home
     home.show()
 
 elif selected == "ASL Interpreter":
-    from screens import asl_interpreter
-
+    
     # Sidebar 
     st.sidebar.title("🛠️ Select Options")
     model_choice = st.sidebar.selectbox(
@@ -44,5 +42,4 @@ elif selected == "ASL Interpreter":
     asl_interpreter.show(model_choice, detection_mode)
 
 elif selected == "Reference":
-    from screens import reference
     reference.show()
