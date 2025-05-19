@@ -4,9 +4,7 @@ from collections import deque
 import tempfile
 import cv2
 from ultralytics import YOLO
-from gtts import gTTS
-from playsound import playsound
-import os
+import pyttsx3
 
 
 # Load model only once
@@ -14,14 +12,27 @@ import os
 def load_model(model_path):
     return YOLO(model_path)
 
-# Speak text using gTTS
 
 def speak_once(text):
-    tts = gTTS(text=text, lang='en')
-    filename = "temp_audio.mp3"
-    tts.save(filename)
-    playsound(filename)
-    os.remove(filename)
+    if not text:
+        return
+    try:
+        engine = pyttsx3.init()  # Initialize each time
+        engine.setProperty('rate', 100)     # 🔁 Speak slower (default ~200)
+        engine.setProperty('volume', 1.0)   # 🔊 Max volume
+
+        # Optional: Set to a clearer voice (e.g., female voice)
+        voices = engine.getProperty('voices')
+        for voice in voices:
+            if "female" in voice.name.lower():
+                engine.setProperty('voice', voice.id)
+                break  # Use first female voice found
+
+        engine.say(text)
+        engine.runAndWait()
+        engine.stop()
+    except Exception as e:
+        print(f"Voice error: {e}")
 
 # Stable prediction logic
 def get_stable_prediction(predictions, threshold=3):

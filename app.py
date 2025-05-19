@@ -1,5 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
+import os
+os.environ["STREAMLIT_WATCHER_TYPE"] = "none"
 
 # Load CSS
 with open("styles/style.css") as f:
