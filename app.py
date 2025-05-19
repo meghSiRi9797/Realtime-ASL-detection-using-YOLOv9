@@ -2,6 +2,12 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from screens import asl_interpreter, home, reference
 import os
+from utils.detection import load_model
+
+# Declare the model path relative to your repo root
+model_path = "models/yolov9c.torchscript"
+# Load the model once at app startup or when needed
+model = load_model(model_path)
 
 os.environ["STREAMLIT_WATCHER_TYPE"] = "none"
 
