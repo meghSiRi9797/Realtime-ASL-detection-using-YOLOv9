@@ -1,6 +1,8 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
+from screens import asl_interpreter, home, reference
 import os
+
 os.environ["STREAMLIT_WATCHER_TYPE"] = "none"
 
 # Load CSS
