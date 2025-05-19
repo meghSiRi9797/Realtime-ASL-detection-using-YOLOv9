@@ -9,22 +9,19 @@ from gtts import gTTS
 import playsound
 import os
 import pyttsx3 
-
+from gtts import gTTS
+import os
+import time
+import pygame
+from gtts import gTTS
+import os
+from playsound import playsound
 # Load model only once
 @st.cache_resource
 def load_model(model_path):
     return YOLO(model_path)
 
 # Speak text using gTTS
-from gtts import gTTS
-import os
-import time
-import pygame
-
-from gtts import gTTS
-import os
-from playsound import playsound
-
 def speak_once(text):
     if not text:
         return
