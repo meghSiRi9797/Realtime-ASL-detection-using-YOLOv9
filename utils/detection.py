@@ -4,17 +4,12 @@ from collections import deque
 import tempfile
 import cv2
 from ultralytics import YOLO
-import cv2
 from gtts import gTTS
 import playsound
-import os
 import pyttsx3 
-from gtts import gTTS
 import os
 import time
 import pygame
-from gtts import gTTS
-import os
 from playsound import playsound
 # Load model only once
 @st.cache_resource
