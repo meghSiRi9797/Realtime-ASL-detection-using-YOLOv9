@@ -33,10 +33,6 @@ def speak_once(text):
     except Exception as e:
         print(f"Voice error: {e}")
 
-# The rest of your functions stay the same...
-
-
-
 # Stable prediction logic
 def get_stable_prediction(predictions, threshold=3):
     if len(predictions) < threshold:
