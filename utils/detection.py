@@ -8,12 +8,13 @@ import cv2
 from ultralytics import YOLO
 import pyttsx3
 import os
+from ultralytics import YOLO
 
 @st.cache_resource
-def load_model(model_path):
-    # You can add a print statement for debug, but remove after confirmed working:
-    print(f"Loading model from {model_path}...")
-    return YOLO(model_path)
+
+def load_model():
+    model = YOLO('models/yolov9c.torchscript')  # ✅ Not .pt
+    return model
 
 def speak_once(text):
     if not text:
