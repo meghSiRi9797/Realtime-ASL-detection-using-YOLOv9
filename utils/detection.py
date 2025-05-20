@@ -6,7 +6,8 @@ from collections import deque
 import tempfile
 import cv2
 from ultralytics import YOLO
-import pyttsx3
+from gtts import gTTS
+import tempfile
 import os
 from ultralytics import YOLO
 
@@ -18,24 +19,25 @@ def load_model(model_path):
         st.error(f"Model loading failed: {e}")
         raise
 
-
 def speak_once(text):
     if not text:
         return
     try:
-        engine = pyttsx3.init()
-        engine.setProperty('rate', 100)
-        engine.setProperty('volume', 1.0)
-        voices = engine.getProperty('voices')
-        for voice in voices:
-            if "female" in voice.name.lower():
-                engine.setProperty('voice', voice.id)
-                break
-        engine.say(text)
-        engine.runAndWait()
-        engine.stop()
+        # Generate speech with gTTS
+        tts = gTTS(text=text, lang='en')
+        
+        # Create a temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp_file:
+            tts.save(tmp_file.name)
+            # Play audio in Streamlit
+            st.audio(tmp_file.name, format="audio/mp3")
+        
+        # Remove temp file immediately after playing
+        os.unlink(tmp_file.name)
+        
     except Exception as e:
-        print(f"Voice error: {e}")
+        print(f"TTS error: {e}")
+
 
 # Stable prediction logic
 def get_stable_prediction(predictions, threshold=3):
