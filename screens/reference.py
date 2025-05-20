@@ -7,7 +7,7 @@ def show():
 
     st.markdown("""
     ##  Research Paper
-    - **"YOLOv9-based Real-time ASL Detection with Multi-Input Support"**  
+    - **"Real Time American Sign Language Detection Using Yolo-v9"**  
       [View on arXiv](https://arxiv.org/pdf/2407.17950)
 
     ##  Libraries & Tools Used
@@ -25,7 +25,7 @@ def show():
       Python Text-to-Speech library used for speech output.
 
     ##  Dataset & Models
-    - YOLOv9C and YOLOv9E pretrained weights are used for gesture detection.  
+    - YOLOv9C pretrained weights are used for gesture detection.  
       These models are selected based on trade-offs between **speed** and **accuracy**.
     - Dataset is assumed to be a curated ASL dataset with labeled hand gestures (custom or open-source).
 
