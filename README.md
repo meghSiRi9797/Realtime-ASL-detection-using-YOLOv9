@@ -5,7 +5,7 @@
 
 ## 📸 Demo Preview
 
-![ASL Demo](assets/demo.mp4)  <!-- Add your demo video or GIF here -->
+![ASL Demo](assets/demo.gif)  <!-- Add your demo video or GIF here -->
 
 ---
 ## 🌐 Live Demo
@@ -16,11 +16,11 @@ A real-time American Sign Language (ASL) detection app built with **YOLOv9** and
 
 ##  Features
 
-- 🎯 Real-time ASL detection from **image**, **video**, or **webcam**
-- 🤖 Uses pretrained **YOLOv9** models (`yolov9c.pt`)
-- 🔊 Built-in **text-to-speech** that speaks out detected signs
-- 🧠 Modular and clean **Streamlit UI**
-- 🌐 Deployed live via Streamlit Cloud
+-  Real-time ASL detection from **image**, **video**, or **webcam**
+-  Uses pretrained **YOLOv9** models (`yolov9c.pt`)
+-  Built-in **text-to-speech** that speaks out detected signs
+-  Modular and clean **Streamlit UI**
+-  Deployed live via Streamlit Cloud
 
 ---
 
@@ -32,7 +32,7 @@ It uses YOLOv9 (You Only Look Once, version 9) to detect hand signs and instantl
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/asl-detection.git
+git clone https://github.com/meghSiRi9797/Realtime-ASL-detection-using-YOLOv9.git
 cd asl-detection
 pip install -r requirements.txt
 streamlit run app.py
