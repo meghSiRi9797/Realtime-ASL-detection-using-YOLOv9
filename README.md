@@ -5,7 +5,7 @@
 
 ## 📸 Demo Preview
 
-![ASL Demo](assets/demo.gif)  <!-- Add your demo video or GIF here -->
+![ASL Demo](assets/demo.mp4)  <!-- Add your demo video or GIF here -->
 
 ---
 ## 🌐 Live Demo
