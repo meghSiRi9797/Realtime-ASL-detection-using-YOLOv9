@@ -5,7 +5,11 @@
 
 ## 📸 Demo Preview
 
-![ASL Demo](assets/demo.gif)  <!-- Add your demo video or GIF here -->
+<p align="center">
+  <img src="assets/image_result.gif" alt="ASL Logo" width="45%" />
+  <img src="assets/demo.gif" alt="Live Demo" width="45%" />
+</p>
+  <!-- Add your demo video or GIF here -->
 
 ---
 ## 🌐 Live Demo
