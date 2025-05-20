@@ -7,7 +7,7 @@ def show():
     col1, col2 = st.columns([2, 5])
     
     with col1:
-        st.image("download.jpg", width=200)  # Adjust path and size
+     st.image("assets/asl_logo.jpg", width=150)
    
     with col2:
         st.markdown("<h1 style='font-size: 40x; margin-top: 5px;'> ASL Detection Platform</h1>", unsafe_allow_html=True)
