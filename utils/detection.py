@@ -11,10 +11,8 @@ import os
 from ultralytics import YOLO
 
 @st.cache_resource
-
 def load_model():
-    model = YOLO('models/yolov9c.torchscript')  # ✅ Not .pt
-    return model
+    return YOLO('models/yolov9c.pt')
 
 def speak_once(text):
     if not text:
