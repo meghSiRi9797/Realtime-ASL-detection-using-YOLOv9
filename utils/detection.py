@@ -10,6 +10,7 @@ from gtts import gTTS
 import tempfile
 import os
 from ultralytics import YOLO
+import streamlit.components.v1 as components
 
 @st.cache_resource
 def load_model(model_path):
@@ -19,24 +20,40 @@ def load_model(model_path):
         st.error(f"Model loading failed: {e}")
         raise
 
-def speak_once(text):
+def speak_text(text):
     if not text:
         return
-    try:
+    # HTML + JS to speak the text automatically in browser
+    js_code = f"""
+    <script>
+    var msg = new SpeechSynthesisUtterance("{text}");
+    msg.rate = 0.9;
+    msg.lang = 'en-US';
+    window.speechSynthesis.cancel();  // stop any ongoing speech
+    window.speechSynthesis.speak(msg);
+    </script>
+    """
+    components.html(js_code, height=0, width=0)
+
+
+#def speak_once(text):
+    #if not text:
+    #    return
+  #  try:
         # Generate speech with gTTS
-        tts = gTTS(text=text, lang='en')
+       # tts = gTTS(text=text, lang='en')
         
         # Create a temporary file
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp_file:
-            tts.save(tmp_file.name)
+       # with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp_file:
+          #  tts.save(tmp_file.name)
             # Play audio in Streamlit
-            st.audio(tmp_file.name, format="audio/mp3")
+         #   st.audio(tmp_file.name, format="audio/mp3")
         
         # Remove temp file immediately after playing
-        os.unlink(tmp_file.name)
+        #os.unlink(tmp_file.name)
         
-    except Exception as e:
-        print(f"TTS error: {e}")
+   # except Exception as e:
+   #     print(f"TTS error: {e}")
 
 
 # Stable prediction logic
@@ -61,7 +78,7 @@ def detect_image(image_file, model_path):
         unique_letters = " ".join(sorted(set(labels)))
         st.image(annotated_img, caption=f"Prediction: {unique_letters}", use_container_width=True)
         st.success(f"Detected: {unique_letters}")
-        speak_once(unique_letters)
+        speak_text(unique_letters)
         return annotated_img, unique_letters
     else:
         st.image(annotated_img, caption="No signs detected", use_container_width=True)
@@ -109,7 +126,7 @@ def detect_video(video_file, model_path):
 
         if confirmed and confirmed != last_spoken:
             st.success(f"Detected: {confirmed}")
-            speak_once(confirmed)
+            speak_text(confirmed)
             last_spoken = confirmed
 
         progress.progress(min(frame_count / total_frames, 1.0))
@@ -152,7 +169,7 @@ def detect_webcam(model_path):
 
         if confirmed and confirmed != last_spoken:
             st.success(f"Detected: {confirmed}")
-            speak_once(confirmed)
+            speak_text(confirmed)
             last_spoken = confirmed
 
     cap.release()
