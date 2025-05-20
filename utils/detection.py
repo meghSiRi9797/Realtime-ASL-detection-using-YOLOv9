@@ -11,8 +11,13 @@ import os
 from ultralytics import YOLO
 
 @st.cache_resource
-def load_model():
-    return YOLO('models/yolov9c.pt')
+def load_model(model_path):
+    try:
+        return YOLO(model_path)
+    except Exception as e:
+        st.error(f"Model loading failed: {e}")
+        raise
+
 
 def speak_once(text):
     if not text:
