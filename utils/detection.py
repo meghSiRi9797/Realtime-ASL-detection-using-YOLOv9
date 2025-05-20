@@ -9,7 +9,6 @@ from ultralytics import YOLO
 from gtts import gTTS
 import tempfile
 import os
-from ultralytics import YOLO
 import streamlit.components.v1 as components
 
 @st.cache_resource
@@ -137,40 +136,59 @@ def detect_video(video_file, model_path):
 
 # Detect in webcam
 def detect_webcam(model_path):
-    cap = cv2.VideoCapture(0)
-    model = load_model(model_path)
-    stframe = st.empty()
-    prediction_buffer = deque(maxlen=5)
-    last_spoken = None
-    frame_interval = 3
-    frame_count = 0
+    # Initialize the “webcam_running” flag in session_state
+    if 'webcam_running' not in st.session_state:
+        st.session_state.webcam_running = False
 
-    st.info("To quit, press the stop button in Streamlit (top right).")
+    # Start / Stop buttons
+    start = st.button("Start Webcam", use_container_width=True)
+    stop  = st.button("Stop Webcam",  use_container_width=True)
 
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            st.warning("Cannot access webcam.")
-            break
+    if start:
+        st.session_state.webcam_running = True
+    if stop:
+        st.session_state.webcam_running = False
 
-        frame_count += 1
-        if frame_count % frame_interval != 0:
-            continue
+    # When the webcam is running, enter the loop
+    if st.session_state.webcam_running:
+        cap = cv2.VideoCapture(0)
+        model = load_model(model_path)
+        stframe = st.empty()
+        prediction_buffer = deque(maxlen=5)
+        last_spoken = None
+        frame_interval = 3
+        frame_count = 0
 
-        results = model.predict(frame)
-        annotated = results[0].plot()
-        stframe.image(annotated, channels="BGR", use_container_width=True)
+        # Only show this while streaming
+        st.info("🔴 Webcam running… click ‘Stop Webcam’ to end.")
 
-        labels = [model.names[int(cls)] for cls in results[0].boxes.cls] if results[0].boxes else []
-        prediction = " ".join(sorted(set(labels)))
-        prediction_buffer.append(prediction)
+        while st.session_state.webcam_running:
+            ret, frame = cap.read()
+            if not ret:
+                st.warning("Cannot access webcam.")
+                break
 
-        confirmed = get_stable_prediction(prediction_buffer, threshold=3)
+            frame_count += 1
+            if frame_count % frame_interval != 0:
+                continue
 
-        if confirmed and confirmed != last_spoken:
-            st.success(f"Detected: {confirmed}")
-            speak_text(confirmed)
-            last_spoken = confirmed
+            # Run inference
+            results   = model.predict(frame)
+            annotated = results[0].plot()
+            stframe.image(annotated, channels="BGR", use_container_width=True)
 
-    cap.release()
-    cv2.destroyAllWindows()
+            # Aggregate stable prediction
+            labels     = [model.names[int(c)] for c in results[0].boxes.cls] if results[0].boxes else []
+            prediction = " ".join(sorted(set(labels)))
+            prediction_buffer.append(prediction)
+            confirmed = get_stable_prediction(prediction_buffer, threshold=3)
+
+            if confirmed and confirmed != last_spoken:
+                st.success(f"Detected: {confirmed}")
+                speak_text(confirmed)
+                last_spoken = confirmed
+
+        # Tear down
+        cap.release()
+        stframe.empty()
+        st.success("🛑 Webcam stopped.")
